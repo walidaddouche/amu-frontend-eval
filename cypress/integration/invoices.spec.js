@@ -1,30 +1,24 @@
 /// <reference types="Cypress" />
-
+import { faker } from "@faker-js/faker";
 import { API_URL, API_KEY, BASE_URL, resetDatabase } from "../utils";
 
 // Les fonctionnalités attendues pour les factures (invoices)
 describe("Invoices Features", () => {
-  // Avant chaque test, je supprime tout ce qui se trouve dans la base de données distante via une requête HTTP
-  beforeEach(() => resetDatabase());
 
   // Testons que l'on peut bien créer une facture pour un client donné
   it("should create and list invoices for a customer", () => {
     // Commençons par créer un client (customer) pour notre test, nous l'appellerons Elise Dupont
-    cy.request({
-      method: "POST",
-      url: API_URL + "/customers",
-      body: {
-        fullName: "Elise Dupont",
-        email: "elise@mail.com",
-      },
-      headers: {
-        apiKey: API_KEY,
-      },
-    });
+    let customerFullName = faker.person.fullName();
+    cy.visit(BASE_URL + "create");
+
+    cy.get("[name=fullName]").type(customerFullName);
+    cy.get("[name=email]").type(faker.internet.email());
+
+    cy.contains("Enregistrer").click();
 
     // Théoriquement on se retrouve sur la page d'accueil et on y retrouve le client qu'on vient de créer (Elise Dupont)
     // sous la forme d'un lien cliquable
-    cy.visit(BASE_URL).contains("Elise Dupont").first().click();
+    cy.contains(customerFullName).first().click();
 
     // Après avoir cliqué, on devrait être sur la page de détails d'Elise Dupont et voir ses informations
     // Et notamment un lien permettant de créer une invoice dont le texte serait "Créer une facture"
