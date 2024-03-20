@@ -1,18 +1,22 @@
 import React from 'react';
 import { Container } from '@mui/material';
 import CustomerForm from '../components/CustomerForm';
+import { Customer } from "../utils/type";
+import {createClient} from "../utils/api/api";
 
 const CreateCustomerPage: React.FC = () => {
-    const handleCustomerSubmit = (customer: { name: string; email: string }) => {
-        // Ici, vous enverriez les informations du client à l'API
-        console.log('Creating customer:', customer);
+    const handleCustomerSubmit = async (customer: Customer) => {
+        try {
+            const newCustomer = await createClient({ ...customer });
+            console.log('Nouveau client créé:', newCustomer);
+        } catch (error) {
+            console.error('Erreur lors de la création du client:', error);
+        }
     };
 
     return (
         <Container>
-            <div>
-                create customer page
-            </div>
+            <CustomerForm onSubmit={handleCustomerSubmit} />
         </Container>
     );
 };

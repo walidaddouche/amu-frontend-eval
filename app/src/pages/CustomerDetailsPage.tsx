@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
+import {useNavigate, useParams} from 'react-router-dom';
+import {Button, Container, Typography} from '@mui/material';
 import InvoiceTable from '../components/InvoiceTable';
 import {fetchClientDetails, fetchInvoicesForCustomer} from "../utils/api/api";
 
@@ -8,8 +8,7 @@ import {fetchClientDetails, fetchInvoicesForCustomer} from "../utils/api/api";
 const CustomerDetailsPage: React.FC = () => {
     const [customerDetails, setCustomerDetails] = useState<any>();
     const [invoices, setInvoices] = useState<any[]>([]);
-
-
+    const navigate = useNavigate();
     const params = useParams();
 
     const  customerId  = params.id;
@@ -44,20 +43,29 @@ const CustomerDetailsPage: React.FC = () => {
     if (!customerDetails) {
         return <div>Chargement des détails du client{customerId}</div>;
     }
-    if(invoices.length == 0) {
-        return <div>Aucune facture trouvé pour ce client</div>;
 
-    }
+    const toHomePage = () => {
+        navigate('/');
+    };
+
+
 
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
-                Détails du Client {customerDetails.name}
+                Détails du Client {customerDetails.name} {customerDetails.email}
             </Typography>
-            <Typography variant="h6" gutterBottom>
-                Factures
-            </Typography>
-            <InvoiceTable invoices={invoices} />
+            <Button onClick={toHomePage}> Retour aux clients</Button>
+            {invoices.length > 0 ? (
+                <>
+                <Typography>Factures</Typography>
+                <InvoiceTable invoices={invoices} />
+                </>
+            ) : (
+                <Typography variant="subtitle1" gutterBottom>
+                    Aucune facture disponible pour ce client.
+                </Typography>
+            )}
         </Container>
     );
 };

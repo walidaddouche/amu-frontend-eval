@@ -6,13 +6,13 @@ import {useNavigate} from "react-router-dom";
 const CustomerCard: React.FC<Customer> = ({id, name, email}) => {
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate(`/customer/${id}`);
+        navigate(`/${id}`);
     };
 
     return (
         <Card variant="outlined" key={id}>
             <CardContent>
-                <Typography variant="h5" component="h2">
+                <Typography  onClick={handleClick} variant="h5" component="h2">
                     {name}
                 </Typography>
                 <Typography color="textSecondary">
