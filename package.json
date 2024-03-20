@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cd app && ng test",
-    "start": "cd app && ng serve --host 0.0.0.0 --disable-host-check --hmr",
+    "test": "cd app && npm test",
+    "start": "cd app && npm start",
     "cy:run": "cypress run",
     "cy:open": "cypress open"
   },
