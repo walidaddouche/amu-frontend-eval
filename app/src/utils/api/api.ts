@@ -1,11 +1,23 @@
 // api.ts
 import {supabase} from './supBaseConfig';
-import {Customer} from "../type";
+import {Customer, Invoice} from "../type";
 
 export const fetchClientDetails = async (id: number) => {
     const {data, error} = await supabase
         .from('clients')
         .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error) throw new Error(error.message);
+
+    return data;
+};
+
+export const fetchClientFullName = async (id: number) => {
+    const {data, error} = await supabase
+        .from('clients')
+        .select('name')
         .eq('id', id)
         .single();
 
@@ -55,3 +67,21 @@ export const fetchClients = async () => {
     return data;
 };
 
+/**
+ * Crée une nouvelle facture dans la base de données.
+ * @param invoice Les détails de la facture à créer.
+ * @returns La facture créée ou une erreur si l'opération échoue.
+ */
+export const createInvoice = async (invoice: Omit<Invoice, 'id'>) => {
+    const { data, error } = await supabase
+        .from('invoices')
+        .insert([
+            invoice
+        ]);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return data;
+};

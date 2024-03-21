@@ -49,12 +49,18 @@ const CustomerDetailsPage: React.FC = () => {
     };
 
 
+    const toCreateInvoice = () => {
+        navigate("/customer/"+customerId+"/invoices/add");
+    };
+
+
 
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
                 Détails du Client {customerDetails.name} {customerDetails.email}
             </Typography>
+            <Button onClick={toCreateInvoice}> Créer une factures</Button>
             <Button onClick={toHomePage}> Retour aux clients</Button>
             {invoices.length > 0 ? (
                 <>

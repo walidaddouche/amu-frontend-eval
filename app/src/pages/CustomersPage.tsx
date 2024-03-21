@@ -16,7 +16,6 @@ const CustomersPage: React.FC = () => {
                 const data = await fetchClients();
                 // @ts-ignore
                 setClients(data);
-
             } catch (error) {
                 console.error("Erreur lors de la récupération des clients:", error);
             } finally {

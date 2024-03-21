@@ -7,11 +7,10 @@ export interface Customer {
     email: string;
 }
 export interface Invoice {
-    id: number;
+    id?: number;
     client_id: number;
     amount: number;
     status: string;
     created_at?: string;
     due_date?: string;
 }
-

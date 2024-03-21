@@ -1,22 +1,36 @@
-import React from 'react';
-import { Container, Typography } from '@mui/material';
-import InvoiceForm from '../components/InvoiceForm';
+import React, { useEffect, useState } from "react";
+import { Button, Container, Typography } from "@mui/material";
+import InvoiceForm from "../components/InvoiceForm";
+import { useParams } from "react-router-dom";
+import { fetchClientFullName } from "../utils/api/api";
 
 const CreateInvoicePage: React.FC = () => {
-    // Simulons un ID client pour l'exemple
-    const customerId = 1;
+    const { id } = useParams<{ id: string }>();
+    const customerIdNumber = id ? parseInt(id, 10) : null;
+    const [name, setName] = useState<string | undefined>(undefined); // Initialiser le state avec le type correct
 
-    const handleInvoiceSubmit = (invoice: { date: string; amount: number; customerId: number }) => {
-        // Ici, vous enverriez les informations de la facture à l'API
-        console.log('Creating invoice:', invoice);
-    };
+    useEffect(() => {
+        const fetchFullName = async () => {
+            try {
+                if (customerIdNumber) {
+                    const object = await fetchClientFullName(customerIdNumber);
+                    // @ts-ignore
+                    setName(object.name);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des détails du client:", error);
+            }
+        };
+
+        fetchFullName();
+    }, [id]); // Utiliser [id] comme dépendance pour réexécuter useEffect si l'id change
 
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
-                Créer une Facture pour le Client {customerId}
+                Créer une Facture pour {name}
             </Typography>
-            <InvoiceForm customerId={customerId} onSubmit={handleInvoiceSubmit} />
+            {customerIdNumber && <InvoiceForm customerId={customerIdNumber} />}
         </Container>
     );
 };

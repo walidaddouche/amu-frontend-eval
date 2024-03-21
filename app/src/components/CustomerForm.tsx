@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TextField, Container, Typography, Snackbar, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Customer } from "../utils/type";
 import {createClient} from "../utils/api/api";
 
 interface CustomerFormProps {}
@@ -14,7 +13,6 @@ const CustomerForm: React.FC<CustomerFormProps> = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
-
     const navigate = useNavigate();
 
     const validateForm = () => {
