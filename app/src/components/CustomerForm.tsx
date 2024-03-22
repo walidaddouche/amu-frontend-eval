@@ -50,7 +50,7 @@ const CustomerForm: React.FC<CustomerFormProps> = () => {
                 navigate('/');
             }, 3000);
         } catch (error: any) {
-            if (error?.status === 409) {
+            if (error.response?.status === 409) {
                 setSnackbarMessage('Cette adresse e-mail est déjà utilisée.');
                 setSnackbarSeverity('error');
             } else {

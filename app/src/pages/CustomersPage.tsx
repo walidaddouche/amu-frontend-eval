@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Typography } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {CircularProgress, Container, Grid, LinearProgress, Typography} from '@mui/material';
 import CustomerCard from '../components/CustomerCard';
 import {fetchClients} from "../utils/api/api";
 import {Customer} from "../utils/type";
@@ -27,23 +27,24 @@ const CustomersPage: React.FC = () => {
     }, []);
 
     return (
-        <Container>
-            <Typography variant="h4" gutterBottom>
-                Liste des Clients
-            </Typography>
-            {loading ? (
-                <Typography>Chargement...</Typography>
-            ) : (
-                clients.map((client) => (
-                    <CustomerCard
-                        key={client.id}
-                        id={client.id}
-                        name={client.name}
-                        email={client.email}
-                    />
-                ))
-            )}
-        </Container>
+        <>
+            <Typography variant="h4" gutterBottom style={{fontWeight: 'bold', marginBottom: '20px'}}>
+            Liste des Clients
+        </Typography>
+            <Grid  xs={12} md={6}>
+                {loading ? (
+                    <CircularProgress aria-label="Chargement"/>) : (
+                    clients.map((client) => (
+                        <CustomerCard
+                            key={client.id}
+                            id={client.id}
+                            name={client.name}
+                            email={client.email}
+                        />
+                    ))
+                )}
+            </Grid>
+            </>
     );
 };
 

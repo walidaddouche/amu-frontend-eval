@@ -8,14 +8,10 @@ interface InvoiceTableProps {
 
 const getStatusStyle = (status: string) => {
     switch (status) {
-        case 'en attente':
+        case 'SENT':
             return { color: 'orange' };
-        case 'payée':
+        case 'PAID':
             return { color: 'green' };
-        case 'annulé':
-            return { color: 'red' };
-        case 'en retard':
-            return { color: 'blue' };
         default:
             return {};
     }
@@ -61,6 +57,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ invoices }) => {
         return 0;
     });
 
+
     return (
         <Paper>
             <Table>
@@ -90,7 +87,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ invoices }) => {
                                 direction={sortBy === 'status' ? sortOrder : 'asc'}
                                 onClick={() => handleSort('status')}
                             >
-                                Status
+                                Statut
                             </TableSortLabel>
                         </TableCell>
                     </TableRow>
@@ -102,7 +99,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ invoices }) => {
                                 {formatDate(invoice.due_date)}
                             </TableCell>
 
-                            <TableCell>{invoice.amount}</TableCell>
+                            <TableCell>{invoice.amount} €</TableCell>
                             <TableCell>
                                 <Typography style={getStatusStyle(invoice.status)}>
                                     {invoice.status}

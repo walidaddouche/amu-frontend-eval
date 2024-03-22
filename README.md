@@ -1,55 +1,76 @@
-# Evaluation pratique du module IHM Web
+# Système de gestion de clients
 
-Dans cette évaluation, vous allez mettre en oeuvre et un projet d'application frontend de gestion de clients et de factures destiné aux indépendants et aux commerçants.
+Un système de gestion de clients simple construit avec React et TypeScript.
 
-## Conseils pour le développement
+## Mise en route
 
-Dans le dossier `cypress/integration` vous trouverez les tests fonctionnels détaillés qui expriment les éléments que l'on doit pouvoir trouver sur la page et les dynamismes attendus ainsi que les URLs qui doivent exister dans votre système de navigation.
+Pour commencer avec le projet, suivez ces étapes :
 
-Vous pouvez lancer la procédure de tests fonctionnels grâce à `npm run cy:open` (ou `npm run cy:run` pour lancer les tests sans ouvrir de navigateur autoguidé et rester dans la console).
+1. **Clonez le dépôt :**
+    ```bash
+    git clone <https://github.com/your-username/customer-management-system.git>
+    ```
 
-**Attention : dans le fichier `utils.js` de Cypress, prenez soin de faire matcher la variable BASE_URL avec celle que vous choisissez pour ouvrir l'application dans le navigateur ! Changez aussi les informations relatives à SUPABASE**
+2. **Installez les dépendances :**
+    ```bash
+    cd customer-management-system
+    npm install
+    ```
 
-Ces tests sont par défaut en mode _watch_, ce qui veut dire que vous pouvez développer tout en gardant les tests ouverts et constater de votre avancée dessus.
+3. **Lancez le serveur de développement :**
+    ```bash
+    npm start
+    ```
 
-## Cahier des charges
+Le serveur sera disponible à l'adresse http://localhost:3000.
 
-Vous trouverez ici un [semblant de cahier des charges](./CDC.md) qui vous donnera les fonctionnalités attendues par votre client dans les grandes lignes. Pour les détails, référez vous au fichier de tests fonctionnels cypress ;-)
+## Tests unitaires
 
-## Barème et notation
-
-### Tests fonctionnels Cypress : 10 points
-
-Le fait que l'application réponde à 100% aux exigences des tests fonctionnels fournis par la maîtrise d'ouvrage rapporte déjà 10 points sur 20.
-
-### Conception et qualité : 7 points
-
-Une rapide relecture du code fourni permettra de constater de votre conception en termes de refactoring, d'organisation du code, de lisibilité ainsi qu'une présence plus ou moins poussée des tests unitaires. Cette relecture rapportera entre 0 et 7 points en fonction de ces divers critères d'appréciation.
-
-### Présentation : 3 points
-
-Même si le fonctionnel est ici le plus important, une attention donnée à la présentation de l'application créée pourra rapporter encore des points supplémentaires. Aucune contrainte n'est donnée, tout est possible en termes de structure et de design.
-
-## Livrable attendu
-
-Vous devrez envoyer par mail (donné lors du cours) un lien vers un dépôt Git.
-
-En tant que correcteur, je dois pouvoir corriger de cette façon :
+Les tests unitaires sont écrits avec Jest et React Testing Library. Pour exécuter les tests, utilisez la commande suivante :
 
 ```bash
-# télécharger votre projet :
-git clone url_de_votre_projet
-
-# entrer dans le dossier
-cd votre_application
-
-# lancer l'application :
-npm run serve
-
-# lancer les tests :
-npm run cy:run
-# ou
-npm run cy:open
+npm test
 ```
+## Structure du projet
 
-## Courage !
+Le projet est structuré de la manière suivante :
+
+- **src** : dossier contenant le code source du projet
+    - **components** : dossier contenant les composants React
+        - **CustomerCard** : affiche les informations d'un client sous forme de carte.
+        - **CustomerList** : affiche la liste des clients.
+        - **CustomerForm** : affiche le formulaire de création ou d'édition d'un client.
+    - **utils** : dossier contenant les utilitaires et les types
+
+- **public** : dossier contenant les fichiers publics de l'application
+
+- **App.tsx** : fichier principal de l'application
+
+- **package.json** : fichier de configuration du projet
+
+## Résultats des tests cypress 
+![img.png](img.png)
+
+
+### Fonctionnalités
+- Creation de client avec des messages d'erreurs si les champs ne sont pas remplis correctement ou si le client existe déjà.
+![img_1.png](img_1.png)
+<br> </br>
+- Consultation des informations d'un client inclut également les détails de ses factures, y compris leur statut actuel et leur montant.
+- Possibilité de trier les factures selon différents critères tels que leur statut, leur montant ou leur date.
+![img_2.png](img_2.png)
+  <br> </br>
+
+- Creation de facture pour un client avec des messages d'erreurs si les champs ne sont pas remplis correctement.
+![img_3.png](img_3.png)
+- Message d'erreur au cas où l'id du client n'est pas valide 
+![img_4.png](img_4.png)
+<br> </br>
+
+- Consultation de la liste des clients.
+
+### Améliorations possibles
+- Ajouter une fonctionnalité de recherche pour les clients.
+- Ajouter une fonctionnalité de recherche pour les factures.
+## Auteur
+ADDOUCHE WALID

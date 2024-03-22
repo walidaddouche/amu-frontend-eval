@@ -7,7 +7,7 @@ import { fetchClientFullName } from "../utils/api/api";
 const CreateInvoicePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const customerIdNumber = id ? parseInt(id, 10) : null;
-    const [name, setName] = useState<string | undefined>(undefined); // Initialiser le state avec le type correct
+    const [name, setName] = useState(""); // Initialiser le state avec le type correct
 
     useEffect(() => {
         const fetchFullName = async () => {
@@ -23,14 +23,10 @@ const CreateInvoicePage: React.FC = () => {
         };
 
         fetchFullName();
-    }, [id]); // Utiliser [id] comme dépendance pour réexécuter useEffect si l'id change
-
+    }, [id]);
     return (
         <Container>
-            <Typography variant="h4" gutterBottom>
-                Créer une Facture pour {name}
-            </Typography>
-            {customerIdNumber && <InvoiceForm customerId={customerIdNumber} />}
+            {customerIdNumber && <InvoiceForm customerId={customerIdNumber}  fullName={name} />}
         </Container>
     );
 };

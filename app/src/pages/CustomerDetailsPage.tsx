@@ -1,71 +1,87 @@
 import React, { useEffect, useState } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
-import {Button, Container, Typography} from '@mui/material';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+    Avatar,
+    Button,
+    capitalize,
+    CircularProgress,
+    Container,
+    Grid,
+    IconButton,
+    Tooltip,
+    Typography
+} from '@mui/material';
 import InvoiceTable from '../components/InvoiceTable';
-import {fetchClientDetails, fetchInvoicesForCustomer} from "../utils/api/api";
-
+import { fetchClientDetails, fetchInvoicesForCustomer } from '../utils/api/api';
+import { lightBlue } from "@mui/material/colors";
 
 const CustomerDetailsPage: React.FC = () => {
     const [customerDetails, setCustomerDetails] = useState<any>();
     const [invoices, setInvoices] = useState<any[]>([]);
+    const [idError, setIdError] = useState(false);
+    const [fetchError, setFetchError] = useState(false);
+
     const navigate = useNavigate();
     const params = useParams();
-
-    const  customerId  = params.id;
+    const customerId = params.id;
 
     useEffect(() => {
-        const getCustomerDetails = async () => {
+        const fetchData = async () => {
             try {
                 const details = await fetchClientDetails(Number(customerId));
                 setCustomerDetails(details);
 
-            } catch (error) {
-                console.error("Erreur lors de la récupération des détails du client:", error);
-            }
-        };
-
-        const getInvoices = async () => {
-            try {
                 const customerInvoices = await fetchInvoicesForCustomer(Number(customerId));
-                console.log(customerInvoices);
                 setInvoices(customerInvoices);
             } catch (error) {
-                console.error("Erreur lors de la récupération des factures du client:", error);
+
+                    setIdError(true); // ID client invalide
+                    setFetchError(true); // Erreur de récupération des détails du client
+
             }
         };
 
         if (customerId) {
-            getCustomerDetails();
-            getInvoices();
+            fetchData();
         }
     }, [customerId]);
 
     if (!customerDetails) {
-        return <div>Chargement des détails du client{customerId}</div>;
+        return <CircularProgress />;
+    }
+
+    if (idError) {
+        return <Typography variant="body1">Veuillez saisir un ID valide.</Typography>;
+    }
+
+    if (fetchError) {
+        return <Typography variant="body1">Erreur lors de la récupération des détails du client.</Typography>;
     }
 
     const toHomePage = () => {
         navigate('/');
     };
 
-
     const toCreateInvoice = () => {
-        navigate("/customer/"+customerId+"/invoices/add");
+        navigate(`/customer/${customerId}/invoices/add`);
     };
-
-
 
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
-                Détails du Client {customerDetails.name} {customerDetails.email}
+                Fiche de {customerDetails.name}
             </Typography>
-            <Button onClick={toCreateInvoice}> Créer une factures</Button>
-            <Button onClick={toHomePage}> Retour aux clients</Button>
+            <Typography variant="h5" gutterBottom>
+                {capitalize(customerDetails.email)}
+            </Typography>
+
+            <Button onClick={toCreateInvoice}>Créer une facture</Button>
+            <Button onClick={toHomePage}>Retour aux clients</Button>
+
             {invoices.length > 0 ? (
                 <>
-                <Typography>Factures</Typography>
-                <InvoiceTable invoices={invoices} />
+                    <Typography>Factures</Typography>
+                    <InvoiceTable invoices={invoices} />
                 </>
             ) : (
                 <Typography variant="subtitle1" gutterBottom>
