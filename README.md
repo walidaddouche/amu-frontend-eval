@@ -8,12 +8,12 @@ Pour commencer avec le projet, suivez ces étapes :
 
 1. **Clonez le dépôt :**
     ```bash
-    git clone <https://github.com/your-username/customer-management-system.git>
+    git clone https://github.com/walidaddouche/amu-frontend-eval
     ```
 
 2. **Installez les dépendances :**
     ```bash
-    cd customer-management-system
+    cd app
     npm install
     ```
 
